@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
-import pyudev
-import subprocess
+import time
 
 import pyudev
-
 from bspwm import Bspwm
 from xrandr import get_enabled_x_screens_and_poll_until_there_is_a_primary
 
@@ -73,6 +71,16 @@ def on_monitor_change():
 
 # badboy from https://config9.com/linux/how-to-create-a-callback-for-monitor-plugged-on-an-intel-graphics/
 def udev_event_received(device):
+    # TODO: rather than wait a fixed interval waiting for the X screen
+    # configuration to get updated whenever a monitor change is detected, we
+    # could do something pretty smart:
+    #
+    # after a change is detected, every N seconds, poll and see if the
+    # configuration was changed, and timeout after M seconds.
+    # possibly, N: 1, M: 30 or 60
+    #
+    # but the 3 works pretty well for now
+    time.sleep(3)
     on_monitor_change()
 
 
@@ -80,9 +88,7 @@ context = pyudev.Context()
 monitor_drm = pyudev.Monitor.from_netlink(context)
 monitor_drm.filter_by(subsystem='drm')
 observer_drm = pyudev.MonitorObserver(monitor_drm, callback=udev_event_received, daemon=False)
+observer_drm.start()
+observer_drm.join()
 
-#observer_drm.start()
-# This will prevent the program from finishing:
-#observer_drm.join()
-
-on_monitor_change()
+#on_monitor_change()
