@@ -84,11 +84,12 @@ def udev_event_received(device):
     on_monitor_change()
 
 
-context = pyudev.Context()
-monitor_drm = pyudev.Monitor.from_netlink(context)
-monitor_drm.filter_by(subsystem='drm')
-observer_drm = pyudev.MonitorObserver(monitor_drm, callback=udev_event_received, daemon=False)
-observer_drm.start()
-observer_drm.join()
+if __name__ == '__main__':
+    context = pyudev.Context()
+    monitor_drm = pyudev.Monitor.from_netlink(context)
+    monitor_drm.filter_by(subsystem='drm')
+    observer_drm = pyudev.MonitorObserver(monitor_drm, callback=udev_event_received, daemon=False)
+    observer_drm.start()
+    observer_drm.join()
 
 #on_monitor_change()
