@@ -6,7 +6,7 @@ import pyudev
 from bspwm import Bspwm
 from xrandr import get_enabled_x_screens_and_poll_until_there_is_a_primary
 
-padding_for_primary = 36
+padding_for_primary = 20
 
 desktop_layouts = [
     # used for whichever screen is the primary
@@ -49,6 +49,11 @@ def on_monitor_change():
     # the menubar, so it should always have padding so it's visible on screen
     primary_bspwm_monitor = active_bspwm_monitors[0]
     Bspwm.set_monitor_padding(primary_bspwm_monitor, padding_for_primary)
+
+    # the rest of the monitors should have padding 0
+    for non_primary_monitor in active_bspwm_monitors[1:]:
+        Bspwm.set_monitor_padding(non_primary_monitor, 0)
+
 
     # step 2, setup the virutal desktops for each monitor
     if len(active_bspwm_monitors) > len(desktop_layouts):
