@@ -6,7 +6,7 @@ import pyudev
 from bspwm import Bspwm
 from xrandr import get_enabled_x_screens_and_poll_until_there_is_a_primary
 
-padding_for_primary = 20
+padding_for_primary = 55
 
 desktop_layouts = [
     # used for whichever screen is the primary
