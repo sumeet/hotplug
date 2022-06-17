@@ -1,1 +1,1 @@
-git+git://github.com/cakturk/pyrandr@master#egg=pyrandr
+git+https://github.com/cakturk/pyrandr@master#egg=pyrandr
